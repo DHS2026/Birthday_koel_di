@@ -22,20 +22,6 @@
             overflow: hidden;
         }
 
-        /* স্ক্রিনের উপরে ডানদিকে টাইমার দেখানোর জন্য */
-        #time-tracker {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            z-index: 1000;
-        }
-
         .container {
             background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(8px);
@@ -66,6 +52,7 @@
             border-radius: 10px;
         }
 
+        /* লিরিক্স দেখানোর জায়গাটি এখন স্ক্রিনের মাঝখানে থাকবে */
         #lyrics-container {
             flex-grow: 1;
             display: flex;
@@ -75,6 +62,7 @@
             padding: 20px;
         }
 
+        /* সাধারণ অবস্থায় সব লাইন লুকানো থাকবে */
         .lyric-line {
             display: none;
             font-size: 26px;
@@ -84,17 +72,20 @@
             text-shadow: 0px 4px 10px rgba(194, 24, 91, 0.2);
         }
 
+        /* যে লাইনটি বাজবে শুধু সেটিই দেখা যাবে এবং অ্যানিমেশন হবে */
         .lyric-line.active {
             display: block;
             animation: fadeInScale 0.6s ease-out forwards;
         }
 
+        /* গান শুরু হওয়ার আগের লেখাটির স্টাইল */
         #waiting-text {
             font-size: 20px;
             color: #7f8c8d;
             font-weight: 600;
         }
 
+        /* সুন্দরভাবে ভেসে ওঠার অ্যানিমেশন */
         @keyframes fadeInScale {
             0% {
                 opacity: 0;
@@ -109,8 +100,6 @@
 </head>
 <body>
 
-    <div id="time-tracker">সময়: 0.0s</div>
-
     <div class="container">
         <h1>শুভ জন্মদিন কোয়েলদি</h1>
         
@@ -120,40 +109,38 @@
         </audio>
 
         <div id="lyrics-container">
-            <p id="waiting-text">গানটি প্লে করুন...</p>
+            <p id="waiting-text">গানটি চালু করুন, লিরিক্স এখানে দেখা যাবে...</p>
         </div>
     </div>
 
     <script>
-        // এখানে time এর সংখ্যাগুলো আপনাকে গান শুনে পরিবর্তন করতে হবে
-        // টেস্ট করার জন্য আমি প্রথম লাইনটি 2 সেকেন্ডে দিয়েছি
         const lyricsData = [
-            { time: 2, text: "চোখের পলকে মুছে যাক সব বিষাদের সুর," },
-            { time: 10, text: "কোয়েলদি, তোমার জীবন হোক সুখে ভরপুর।" },
-            { time: 18, text: "আজকের এই শুভ দিনে করি এই প্রার্থনা—" },
-            { time: 25, text: "প্রতিটি পদে থাক জয়ের হাসি, পূর্ণ সব কামনা।" },
+            { time: 17, text: "চোখের পলকে মুছে যাক সব বিষাদের সুর," },
+            { time: 25, text: "কোয়েলদি, তোমার জীবন হোক সুখে ভরপুর।" },
+            { time: 33, text: "আজকের এই শুভ দিনে করি এই প্রার্থনা—" },
+            { time: 41, text: "প্রতিটি পদে থাক জয়ের হাসি, পূর্ণ সব কামনা।" },
             
-            { time: 35, text: "শুভ জন্মদিন, শুভ জন্মদিন, অফুরন্ত ভালোবাসা," },
-            { time: 42, text: "হাসি-খুশিতে রঙিন হোক তোমার জীবনের আশা।" },
-            { time: 50, text: "স্বপ্নগুলো ছুঁয়ে যাক নীল আকাশের সীমানা," },
-            { time: 58, text: "সুখে-শান্তিতে ভরে থাকুক তোমার প্রতিটি ঠিকানা।" },
+            { time: 52, text: "শুভ জন্মদিন, শুভ জন্মদিন, অফুরন্ত ভালোবাসা," },
+            { time: 60, text: "হাসি-খুশিতে রঙিন হোক তোমার জীবনের আশা।" },
+            { time: 68, text: "স্বপ্নগুলো ছুঁয়ে যাক নীল আকাশের সীমানা," },
+            { time: 76, text: "সুখে-শান্তিতে ভরে থাকুক তোমার প্রতিটি ঠিকানা।" },
             
-            { time: 70, text: "ফুলের মতো ফুটে থাকুক তোমার মধুর হাসি," },
-            { time: 78, text: "আনন্দেরই সুর বাজুক তোমার সকাল－দুপুর－নিশি।" },
-            { time: 86, text: "স্বপ্নের ডানায় ভেসে উঠুক জীবনের প্রতিটি কোণ," },
-            { time: 94, text: "সফলতার রঙে রেঙ্গে উঠুক তোমার আগামী ভুবন।" },
+            { time: 87, text: "ফুলের মতো ফুটে থাকুক তোমার মধুর হাসি," },
+            { time: 95, text: "আনন্দেরই সুর বাজুক তোমার সকাল－দুপুর－নিশি।" },
+            { time: 103, text: "স্বপ্নের ডানায় ভেসে উঠুক জীবনের প্রতিটি কোণ," },
+            { time: 111, text: "সফলতার রঙে রেঙ্গে উঠুক তোমার আগামী ভুবন।" },
             
-            { time: 105, text: "শুভ জন্মদিন, শুভ জন্মদিন, অফুরন্ত ভালোবাসা," },
-            { time: 112, text: "হাসি-খুশিতে রঙিন হোক তোমার জীবনের আশা।" },
-            { time: 120, text: "স্বপ্নগুলো ছুঁয়ে যাক নীল আকাশের সীমানা," },
-            { time: 128, text: "সুখে-শান্তিতে ভরে থাকুক তোমার প্রতিটি ঠিকানা।" }
+            { time: 122, text: "শুভ জন্মদিন, শুভ জন্মদিন, অফুরন্ত ভালোবাসা," },
+            { time: 130, text: "হাসি-খুশিতে রঙিন হোক তোমার জীবনের আশা।" },
+            { time: 138, text: "স্বপ্নগুলো ছুঁয়ে যাক নীল আকাশের সীমানা," },
+            { time: 146, text: "সুখে-শান্তিতে ভরে থাকুক তোমার প্রতিটি ঠিকানা।" }
         ];
 
         const lyricsContainer = document.getElementById('lyrics-container');
         const audioPlayer = document.getElementById('audio-player');
         const waitingText = document.getElementById('waiting-text');
-        const timeTracker = document.getElementById('time-tracker');
 
+        // লিরিক্সগুলো HTML এ যুক্ত করা
         lyricsData.forEach((line, index) => {
             const p = document.createElement('p');
             p.className = 'lyric-line';
@@ -162,12 +149,9 @@
             lyricsContainer.appendChild(p);
         });
 
+        // গান চলার সাথে সাথে লাইন হাইলাইট করা
         audioPlayer.addEventListener('timeupdate', () => {
             const currentTime = audioPlayer.currentTime;
-            
-            // টাইমার আপডেট করা হচ্ছে
-            timeTracker.innerText = `সময়: ${currentTime.toFixed(1)}s`;
-            
             let activeIndex = -1;
             
             for (let i = 0; i < lyricsData.length; i++) {
@@ -179,13 +163,16 @@
             }
 
             if (activeIndex !== -1) {
+                // প্রথম লাইন শুরু হলে "গানটি চালু করুন..." লেখাটি সরিয়ে দেওয়া
                 if (waitingText.style.display !== 'none') {
                     waitingText.style.display = 'none';
                 }
 
                 const activeLine = document.getElementById(`line-${activeIndex}`);
                 if (!activeLine.classList.contains('active')) {
+                    // অন্য সব লাইন লুকিয়ে ফেলা
                     document.querySelectorAll('.lyric-line').forEach(line => line.classList.remove('active'));
+                    // শুধু বর্তমান লাইনটি দেখানো
                     activeLine.classList.add('active');
                 }
             }
