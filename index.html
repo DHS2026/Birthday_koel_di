@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden; /* ব্যাকগ্রাউন্ড স্ক্রল বন্ধ করার জন্য */
+            overflow: hidden;
         }
 
         .container {
@@ -27,7 +27,7 @@
             backdrop-filter: blur(8px);
             width: 90%;
             max-width: 600px;
-            height: 80vh; /* স্ক্রিনের ৮০% জায়গা নেবে */
+            height: 80vh;
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             display: flex;
@@ -40,9 +40,17 @@
             color: #d81b60;
             font-size: 26px;
             text-align: center;
-            margin: 10px 0 20px 0;
+            margin: 10px 0 15px 0;
             border-bottom: 2px solid #f48fb1;
             padding-bottom: 10px;
+        }
+
+        /* গানের প্লেয়ারটি সবার উপরে রাখার স্টাইল */
+        audio {
+            width: 100%;
+            margin-bottom: 15px;
+            outline: none;
+            border-radius: 10px;
         }
 
         /* লিরিক্স স্ক্রল হওয়ার জায়গা */
@@ -50,7 +58,7 @@
             flex-grow: 1;
             overflow-y: auto;
             text-align: center;
-            padding: 50px 20px;
+            padding: 20px;
             scrollbar-width: thin;
             scrollbar-color: #f48fb1 transparent;
             scroll-behavior: smooth;
@@ -67,7 +75,7 @@
 
         .lyric-line {
             font-size: 20px;
-            color: #7f8c8d; /* সাধারণ লাইনের রঙ (হালকা ধূসর) */
+            color: #7f8c8d;
             margin-bottom: 15px;
             transition: all 0.4s ease;
             opacity: 0.5;
@@ -76,18 +84,11 @@
         /* যে লাইনটি বাজছে তার স্টাইল */
         .lyric-line.active {
             font-size: 24px;
-            color: #c2185b; /* গাঢ় গোলাপি/লাল রঙ */
+            color: #c2185b;
             font-weight: 700;
             opacity: 1;
             transform: scale(1.05);
             text-shadow: 0px 0px 10px rgba(194, 24, 91, 0.2);
-        }
-
-        audio {
-            width: 100%;
-            margin-top: 20px;
-            outline: none;
-            border-radius: 10px;
         }
     </style>
 </head>
@@ -96,18 +97,16 @@
     <div class="container">
         <h1>শুভ জন্মদিন কোয়েলদি</h1>
         
-        <div id="lyrics-container">
-            </div>
-
         <audio id="audio-player" controls>
             <source src="birtday.mp3" type="audio/mpeg">
             আপনার ব্রাউজার অডিও সাপোর্ট করছে না।
         </audio>
+
+        <div id="lyrics-container">
+            </div>
     </div>
 
     <script>
-        // গানের লিরিক্স এবং ঠিক কত সেকেন্ডে লাইনটি বাজবে তার তালিকা (time in seconds)
-        // আপনি গানটি চালিয়ে শুনে শুনে এই 'time' এর সংখ্যাগুলো নিখুঁত করতে পারেন।
         const lyricsData = [
             { time: 17, text: "চোখের পলকে মুছে যাক সব বিষাদের সুর," },
             { time: 25, text: "কোয়েলদি, তোমার জীবন হোক সুখে ভরপুর।" },
@@ -145,10 +144,8 @@
         // গান চলার সাথে সাথে লাইন হাইলাইট করা
         audioPlayer.addEventListener('timeupdate', () => {
             const currentTime = audioPlayer.currentTime;
-            
             let activeIndex = -1;
             
-            // কোন লাইনটি এখন বাজছে তা খুঁজে বের করা
             for (let i = 0; i < lyricsData.length; i++) {
                 if (currentTime >= lyricsData[i].time) {
                     activeIndex = i;
@@ -157,19 +154,11 @@
                 }
             }
 
-            // আগের হাইলাইট মুছে নতুন হাইলাইট দেওয়া এবং অটো স্ক্রল করা
             if (activeIndex !== -1) {
                 const activeLine = document.getElementById(`line-${activeIndex}`);
-                
-                // যদি এই লাইনটি আগে থেকেই active না থাকে, তবেই আপডেট করব
                 if (!activeLine.classList.contains('active')) {
-                    // সবার থেকে active ক্লাস মুছে ফেলা
                     document.querySelectorAll('.lyric-line').forEach(line => line.classList.remove('active'));
-                    
-                    // বর্তমান লাইনে active ক্লাস যোগ করা
                     activeLine.classList.add('active');
-                    
-                    // লাইনটিকে স্ক্রিনের মাঝখানে স্ক্রল করে নিয়ে আসা
                     activeLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
