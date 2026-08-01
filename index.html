@@ -20,12 +20,71 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            /* একটি হালকা ডার্ক ওভারলে দেওয়া হলো যাতে নিয়ন আলো ভালো ফোটে */
             background-color: #000;
         }
 
+        /* ভাসমান বেলুনের কন্টেইনার */
+        #balloon-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* এতে ক্লিক করলে অডিও প্লেয়ারে কোনো সমস্যা হবে না */
+            z-index: 99; /* বেলুনগুলো স্ক্রিনের সামনে থাকবে */
+            overflow: hidden;
+        }
+
+        /* বেলুনের ডিজাইন (CSS শেপ) */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 255, 255, 0.4);
+            animation: floatUp linear forwards;
+            opacity: 0.85;
+        }
+
+        /* বেলুনের নিচের গিঁট */
+        .balloon::before {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 10px;
+            background-color: inherit; /* বেলুনের যে রঙ, গিঁটেরও সেই রঙ হবে */
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        /* বেলুনের সুতো */
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            width: 1.5px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* বেলুন ভাসার অ্যানিমেশন */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(-60vh) rotate(10deg);
+            }
+            100% {
+                transform: translateY(-120vh) rotate(-10deg);
+                opacity: 0;
+            }
+        }
+
         .container {
-            /* মায়াবী ডার্ক গ্লাস এফেক্ট */
             background: rgba(20, 5, 25, 0.75); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -39,6 +98,7 @@
             flex-direction: column;
             padding: 20px;
             box-sizing: border-box;
+            z-index: 10;
         }
 
         h1 {
@@ -48,7 +108,6 @@
             margin: 10px 0 15px 0;
             border-bottom: 2px solid rgba(244, 143, 177, 0.3);
             padding-bottom: 10px;
-            /* হেডারে হালকা নিয়ন গ্লো */
             text-shadow: 0 0 8px rgba(255, 153, 204, 0.6);
         }
 
@@ -57,7 +116,6 @@
             margin-bottom: 15px;
             outline: none;
             border-radius: 10px;
-            /* অডিও প্লেয়ারটিকে থিমের সাথে মানানসই করতে */
             filter: invert(0.8) hue-rotate(180deg) brightness(1.2);
         }
 
@@ -72,12 +130,10 @@
 
         .lyric-line {
             display: none;
-            font-size: 28px; /* একটু বড় করা হলো */
-            /* নিয়নের ভেতরের আলো হালকা গোলাপি/সাদা হয় */
+            font-size: 28px; 
             color: #ffe6f2; 
             font-weight: 700;
             line-height: 1.6;
-            /* গোলাপি নিয়ন এফেক্ট */
             text-shadow: 
                 0 0 5px #fff,
                 0 0 10px #ff1493,
@@ -99,7 +155,6 @@
             animation: pulseText 1.5s infinite alternate;
         }
 
-        /* সুন্দরভাবে ভেসে ওঠা ও নিয়ন জ্বলে ওঠার অ্যানিমেশন */
         @keyframes fadeInNeon {
             0% {
                 opacity: 0;
@@ -113,23 +168,16 @@
             }
         }
 
-        /* মায়াবী পালস বা নিঃশ্বাস নেওয়ার মতো এফেক্ট */
         @keyframes pulseNeon {
             0% {
                 text-shadow: 
-                    0 0 5px #fff,
-                    0 0 10px #ff1493,
-                    0 0 20px #ff1493,
-                    0 0 40px #c2185b,
-                    0 0 80px #c2185b;
+                    0 0 5px #fff, 0 0 10px #ff1493, 0 0 20px #ff1493,
+                    0 0 40px #c2185b, 0 0 80px #c2185b;
             }
             100% {
                 text-shadow: 
-                    0 0 2px #fff,
-                    0 0 8px #ff69b4,
-                    0 0 15px #ff1493,
-                    0 0 30px #c2185b,
-                    0 0 60px #e91e63;
+                    0 0 2px #fff, 0 0 8px #ff69b4, 0 0 15px #ff1493,
+                    0 0 30px #c2185b, 0 0 60px #e91e63;
             }
         }
 
@@ -140,6 +188,9 @@
     </style>
 </head>
 <body>
+
+    <!-- বেলুন ভাসার কন্টেইনার -->
+    <div id="balloon-container"></div>
 
     <div class="container">
         <h1>꧁ᴴᵃᵖᵖʸ☆ᵇⁱʳᵗʰᵈᵃʸ꧂ শুভ জন্মদিন কোয়েল দি 🎉🎂✨</h1>
@@ -180,7 +231,11 @@
         const lyricsContainer = document.getElementById('lyrics-container');
         const audioPlayer = document.getElementById('audio-player');
         const waitingText = document.getElementById('waiting-text');
+        const balloonContainer = document.getElementById('balloon-container');
+        
+        let balloonInterval;
 
+        // লিরিক্স যোগ করা
         lyricsData.forEach((line, index) => {
             const p = document.createElement('p');
             p.className = 'lyric-line';
@@ -189,6 +244,7 @@
             lyricsContainer.appendChild(p);
         });
 
+        // গান চলার সাথে সাথে লিরিক্স সিঙ্ক করা
         audioPlayer.addEventListener('timeupdate', () => {
             const currentTime = audioPlayer.currentTime;
             let activeIndex = -1;
@@ -212,6 +268,58 @@
                     activeLine.classList.add('active');
                 }
             }
+        });
+
+        // বেলুন তৈরি করার ফাংশন
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+
+            // বিভিন্ন সাইজ এবং পজিশন
+            const size = Math.random() * (70 - 40) + 40; // 40px থেকে 70px এর মধ্যে
+            const leftPosition = Math.random() * 90; // 0% থেকে 90% এর মধ্যে
+            const animationDuration = Math.random() * (12 - 7) + 7; // 7 থেকে 12 সেকেন্ডের মধ্যে উঠবে
+
+            // মায়াবী/নিয়ন রঙের তালিকা
+            const colors = [
+                '#ff69b4', // Hot Pink
+                '#ff1493', // Deep Pink
+                '#da70d6', // Orchid (হালকা বেগুনি)
+                '#9370db', // Medium Purple
+                '#00ffff', // Cyan (নিয়ন নীল)
+            ];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            balloon.style.width = `${size}px`;
+            balloon.style.height = `${size * 1.3}px`; // উচ্চতা চওড়ার চেয়ে একটু বেশি হবে
+            balloon.style.left = `${leftPosition}vw`;
+            balloon.style.backgroundColor = randomColor;
+            balloon.style.animationDuration = `${animationDuration}s`;
+
+            balloonContainer.appendChild(balloon);
+
+            // বেলুন স্ক্রিনের বাইরে চলে গেলে মেমরি ফ্রি করার জন্য ডিলিট করা
+            setTimeout(() => {
+                balloon.remove();
+            }, animationDuration * 1000);
+        }
+
+        // গান চালু হলে বেলুন তৈরি শুরু হবে (প্রতি ৮০০ মিলিসেকেন্ডে ১টি)
+        audioPlayer.addEventListener('play', () => {
+            if (!balloonInterval) {
+                balloonInterval = setInterval(createBalloon, 800);
+            }
+        });
+
+        // গান থামলে বা শেষ হলে বেলুন তৈরি বন্ধ হবে
+        audioPlayer.addEventListener('pause', () => {
+            clearInterval(balloonInterval);
+            balloonInterval = null;
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            clearInterval(balloonInterval);
+            balloonInterval = null;
         });
     </script>
 </body>
