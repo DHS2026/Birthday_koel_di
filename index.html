@@ -20,16 +20,21 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
+            /* একটি হালকা ডার্ক ওভারলে দেওয়া হলো যাতে নিয়ন আলো ভালো ফোটে */
+            background-color: #000;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(8px);
+            /* মায়াবী ডার্ক গ্লাস এফেক্ট */
+            background: rgba(20, 5, 25, 0.75); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 105, 180, 0.2);
             width: 90%;
             max-width: 600px;
             height: 70vh;
             border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 20, 147, 0.2);
             display: flex;
             flex-direction: column;
             padding: 20px;
@@ -37,12 +42,14 @@
         }
 
         h1 {
-            color: #d81b60;
+            color: #ff99cc;
             font-size: 26px;
             text-align: center;
             margin: 10px 0 15px 0;
-            border-bottom: 2px solid #f48fb1;
+            border-bottom: 2px solid rgba(244, 143, 177, 0.3);
             padding-bottom: 10px;
+            /* হেডারে হালকা নিয়ন গ্লো */
+            text-shadow: 0 0 8px rgba(255, 153, 204, 0.6);
         }
 
         audio {
@@ -50,9 +57,10 @@
             margin-bottom: 15px;
             outline: none;
             border-radius: 10px;
+            /* অডিও প্লেয়ারটিকে থিমের সাথে মানানসই করতে */
+            filter: invert(0.8) hue-rotate(180deg) brightness(1.2);
         }
 
-        /* লিরিক্স দেখানোর জায়গাটি এখন স্ক্রিনের মাঝখানে থাকবে */
         #lyrics-container {
             flex-grow: 1;
             display: flex;
@@ -62,46 +70,79 @@
             padding: 20px;
         }
 
-        /* সাধারণ অবস্থায় সব লাইন লুকানো থাকবে */
         .lyric-line {
             display: none;
-            font-size: 26px;
-            color: #c2185b;
+            font-size: 28px; /* একটু বড় করা হলো */
+            /* নিয়নের ভেতরের আলো হালকা গোলাপি/সাদা হয় */
+            color: #ffe6f2; 
             font-weight: 700;
-            line-height: 1.5;
-            text-shadow: 0px 4px 10px rgba(194, 24, 91, 0.2);
+            line-height: 1.6;
+            /* গোলাপি নিয়ন এফেক্ট */
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #ff1493,
+                0 0 20px #ff1493,
+                0 0 40px #c2185b,
+                0 0 80px #c2185b;
         }
 
-        /* যে লাইনটি বাজবে শুধু সেটিই দেখা যাবে এবং অ্যানিমেশন হবে */
         .lyric-line.active {
             display: block;
-            animation: fadeInScale 0.6s ease-out forwards;
+            animation: fadeInNeon 0.8s ease-out forwards, pulseNeon 2s infinite alternate;
         }
 
-        /* গান শুরু হওয়ার আগের লেখাটির স্টাইল */
         #waiting-text {
             font-size: 20px;
-            color: #7f8c8d;
+            color: #ffb3d9;
             font-weight: 600;
+            text-shadow: 0 0 8px rgba(255, 179, 217, 0.6);
+            animation: pulseText 1.5s infinite alternate;
         }
 
-        /* সুন্দরভাবে ভেসে ওঠার অ্যানিমেশন */
-        @keyframes fadeInScale {
+        /* সুন্দরভাবে ভেসে ওঠা ও নিয়ন জ্বলে ওঠার অ্যানিমেশন */
+        @keyframes fadeInNeon {
             0% {
                 opacity: 0;
-                transform: scale(0.8) translateY(10px);
+                transform: scale(0.8) translateY(15px);
+                filter: brightness(0.5);
             }
             100% {
                 opacity: 1;
                 transform: scale(1) translateY(0);
+                filter: brightness(1);
             }
+        }
+
+        /* মায়াবী পালস বা নিঃশ্বাস নেওয়ার মতো এফেক্ট */
+        @keyframes pulseNeon {
+            0% {
+                text-shadow: 
+                    0 0 5px #fff,
+                    0 0 10px #ff1493,
+                    0 0 20px #ff1493,
+                    0 0 40px #c2185b,
+                    0 0 80px #c2185b;
+            }
+            100% {
+                text-shadow: 
+                    0 0 2px #fff,
+                    0 0 8px #ff69b4,
+                    0 0 15px #ff1493,
+                    0 0 30px #c2185b,
+                    0 0 60px #e91e63;
+            }
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>꧁ᴴᵃᵖᵖʸ☆ᵇⁱʳᵗʰᵈᵃʸ꧂ শুভ জন্মদিন কোয়েল দি 🎉🎂✨🍰🥳</h1>
+        <h1>꧁ᴴᵃᵖᵖʸ☆ᵇⁱʳᵗʰᵈᵃʸ꧂ শুভ জন্মদিন কোয়েল দি 🎉🎂✨</h1>
         
         <audio id="audio-player" controls>
             <source src="birtday.mp3" type="audio/mpeg">
@@ -140,7 +181,6 @@
         const audioPlayer = document.getElementById('audio-player');
         const waitingText = document.getElementById('waiting-text');
 
-        // লিরিক্সগুলো HTML এ যুক্ত করা
         lyricsData.forEach((line, index) => {
             const p = document.createElement('p');
             p.className = 'lyric-line';
@@ -149,7 +189,6 @@
             lyricsContainer.appendChild(p);
         });
 
-        // গান চলার সাথে সাথে লাইন হাইলাইট করা
         audioPlayer.addEventListener('timeupdate', () => {
             const currentTime = audioPlayer.currentTime;
             let activeIndex = -1;
@@ -163,16 +202,13 @@
             }
 
             if (activeIndex !== -1) {
-                // প্রথম লাইন শুরু হলে "গানটি চালু করুন..." লেখাটি সরিয়ে দেওয়া
                 if (waitingText.style.display !== 'none') {
                     waitingText.style.display = 'none';
                 }
 
                 const activeLine = document.getElementById(`line-${activeIndex}`);
                 if (!activeLine.classList.contains('active')) {
-                    // অন্য সব লাইন লুকিয়ে ফেলা
                     document.querySelectorAll('.lyric-line').forEach(line => line.classList.remove('active'));
-                    // শুধু বর্তমান লাইনটি দেখানো
                     activeLine.classList.add('active');
                 }
             }
